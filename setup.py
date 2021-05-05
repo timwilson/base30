@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     # Needed to silence warnings (and to be a worthwhile package)
     name='base30',
-    url=''https://github.com/timwilson/base30,
+    url='https://github.com/timwilson/base30',
     author='Tim Wilson',
     author_email='tim@savvytechgroup.com',
     # Needed to actually package something
