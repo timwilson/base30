@@ -12,6 +12,25 @@ while typing the base30-encoded version.
 The base30 digits include 0-9 and the letters BCDFGHJKLMNPQRSTVWXZ
 """
 
+
+class Error(Exception):
+    """Base class for other exceptions"""
+
+    pass
+
+
+class NumberInputError(Error):
+    """Raised when the input value is a float"""
+
+    pass
+
+
+class ImproperBase30FormatError(Error):
+    """Raised when the input value contains letters that aren't allowed in the base30 specification"""
+
+    pass
+
+
 values = "0123456789BCDFGHJKLMNPQRSTVWXZ"
 digit_value_dict = {
     "0": 0,
@@ -51,22 +70,39 @@ def dec_to_b30(num):
     """Given a decimal number, return the base30-encoded equivalent."""
     base_num = ""
 
-    while num > 0:
-        digit = int(num % 30)
-        if digit < 10:
-            base_num += str(digit)
-        else:
-            base_num += values[digit]
-        num //= 30
-    base_num = base_num[::-1]
-    return base_num
+    # Make sure the function received an integer as input
+    try:
+        if isinstance(num, float):
+            raise NumberInputError
+        num = int(num)
+    except (ValueError, NumberInputError):
+        print("Must provide an integer to convert.")
+    else:
+        while num > 0:
+            digit = int(num % 30)
+            if digit < 10:
+                base_num += str(digit)
+            else:
+                base_num += values[digit]
+            num //= 30
+        base_num = base_num[::-1]
+        return base_num
 
 
 def b30_to_dec(num):
     """Given a base30-encoded number, return the decimal equivalent."""
-    num = str(num)
-    dec_num = 0
-    rev_num = num[::-1]
-    for i in range(len(rev_num)):
-        dec_num += digit_value_dict[rev_num[i]] * (30 ** i)
-    return dec_num
+
+    # Make sure the function received a base30 number that doesn't include any illegal characters
+    try:
+        num = str(num)
+        for c in num:
+            if c not in values:
+                raise ImproperBase30FormatError
+    except ImproperBase30FormatError:
+        print(f"Invalid base30 format. My only contain {values}.")
+    else:
+        dec_num = 0
+        rev_num = num[::-1]
+        for i in range(len(rev_num)):
+            dec_num += digit_value_dict[rev_num[i]] * (30 ** i)
+        return dec_num
