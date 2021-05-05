@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import find_packages, setup
 
 setup(
     # Needed to silence warnings (and to be a worthwhile package)
@@ -7,7 +7,7 @@ setup(
     author='Tim Wilson',
     author_email='tim@savvytechgroup.com',
     # Needed to actually package something
-    packages=['base30'],
+    packages=find_packages(include['base30']),
     # Needed for dependencies
     install_requires=[''],
     # *strongly* suggested for sharing

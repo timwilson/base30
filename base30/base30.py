@@ -7,7 +7,7 @@ The purpose of those functions is to convert between regular decimal
 numbers and a version of a base30 system that excludes vowels and other 
 letters than may be mistaken for numerals. This is useful for encoding large
 numbers in a more compact format while reducing the likelihood of errors
-while entering the base30-encoded version.
+while typing the base30-encoded version.
 
 The base30 digits include 0-9 and the letters BCDFGHJKLMNPQRSTVWXZ
 """
